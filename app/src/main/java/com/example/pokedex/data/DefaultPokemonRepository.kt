@@ -5,7 +5,9 @@ import com.example.pokedex.data.remote.Pokemon
 import com.example.pokedex.data.remote.PokemonListResponse
 import com.example.pokedex.data.remote.PokemonRemoteDataSource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,8 +31,8 @@ class DefaultPokemonRepository
     }
 
     private fun refreshLocal(){
-        //
-        Global.launch(Dispatchers.IO){
+
+        GlobalScope.launch(Dispatchers.IO){
             val pokemonRemote = remotedataSource.readAll()
             localDataSource.insert(pokemonRemote)
         }
